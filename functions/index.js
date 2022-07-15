@@ -3,7 +3,7 @@ var express = require('express');
 // 实例化express
 var app = express();
 // // 导入fs文件操作模块
-// var fs = require("fs");
+var fs = require("fs");
 // // 导入音频操作模块
 // var loadAudio = require('audio-loader')
 const functions = require('firebase-functions');
@@ -37,9 +37,9 @@ app.get('/', function (req, res) {
 
 
 // HTML文件会根据页面中的CSS的数据源自动向服务器发送get请求，如果get到链接中有/style.css，则响应返回/public/中的/style.css文件
-// app.get('/style.css', function (req, res) {
-//   res.sendFile( __dirname + "/public/" + "style.css" );
-// });
+app.get('/style.css', function (req, res) {
+  res.sendFile( __dirname + "/public/" + "style.css" );
+});
 
 
 // javascript的数据源自动向服务器发送get请求，如果get到链接中有'/images/:name'，获取实际name的值，创建一个文件传输流，返回/public/images/对应文件名字的图片
@@ -53,14 +53,14 @@ app.get('/', function (req, res) {
 // });
 
 // 用于app本身的图片，如网页抬头标识，javascript的数据源自动向服务器发送get请求，如果get到链接中有'/appimage/:name'，获取实际name的值，创建一个文件传输流，返回/public/appimage/对应文件名字的图片
-// app.get('/appimage/:shortcutname', function (req, res) {
-//   console.log("获取到图片获取请求:"+ req.params.shortcutname);
-//   var imageName=req.params.shortcutname;
-//   var readerImageStream = fs.createReadStream(__dirname + `/public/appimage/${imageName}`).on('error', (err)=>{
-//     console.log(err);
-//   });
-//   readerImageStream.pipe(res);
-// });
+app.get('/img/:shortcutname', function (req, res) {
+  console.log("获取到图片获取请求:"+ req.params.shortcutname);
+  var imageName=req.params.shortcutname;
+  var readerImageStream = fs.createReadStream(__dirname + `/public/img/${imageName}`).on('error', (err)=>{
+    console.log(err);
+  });
+  readerImageStream.pipe(res);
+});
 
 
 
@@ -76,7 +76,7 @@ app.use(express.json());
 //   var host = server.address().address
 //   var port = server.address().port
 //   // console.log(host)
-//   // console.log("应用实例，访问地址为 http://%s:%s", host, port)
+//   console.log("应用实例，访问地址为 http://%s:%s", host, port)
  
 // })
 
